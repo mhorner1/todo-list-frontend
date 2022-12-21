@@ -1,7 +1,7 @@
 import {React, Component} from 'react';
 import moment from 'moment';
 
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, ErrorMessage, validateYupSchema } from 'formik';
 
 class TodoComponent extends Component{
     constructor(props){
@@ -17,15 +17,48 @@ class TodoComponent extends Component{
         
     }
 
+    // if it returns errors as empty object, onSubmit is called
+    // if errors has any data, onSubmit is not called
+    validate = (values) =>{
+        let errors = {}
+
+        if(!values.description){
+            errors.description = "Enter a description"
+        }else if(values.description.length < 2){
+            errors.description = "Description must be at least 2 character long"
+        }
+
+        if(!moment(values.targetDate).isValid){
+            errors.targetDate = "Date not valid."
+        }
+
+
+
+        
+        //console.log(values)
+        return errors;
+    }
+    onSubmit = (values) =>{
+        console.log(`submit: ${values.targetDate}`)
+    }
+
     render(){
+        let {description, targetDate, isCompleted} = this.state;
+        
         return(
             <div>
                 <h1>Todo</h1>
                 <div className="container">
-                    <Formik>
+                    <Formik initialValues={{description, targetDate, isCompleted}}
+                            onSubmit={this.onSubmit} 
+                            validate={this.validate}
+                            validateOnChange={false}
+                            validateOnBlur={false}>
                         {
                             (props) => (
                                 <Form>
+                                    <ErrorMessage name="description" component="div" className="alert alert-warning"></ErrorMessage>
+                                    <ErrorMessage name="targetDate" component="div" className="alert alert-warning"></ErrorMessage>
                                     <fieldset className="form-group">
                                         <label> Description </label>
                                         <Field className="form-control" type="text" name="description"></Field>
