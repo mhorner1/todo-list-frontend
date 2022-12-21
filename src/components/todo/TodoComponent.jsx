@@ -34,6 +34,10 @@ class TodoComponent extends Component{
                                         <label> Target Date </label>
                                         <Field className="form-control" type="date" name="targetDate"></Field>
                                     </fieldset>
+                                    <fieldset className="form-group">
+                                        <label> Complete? </label>
+                                        <Field className="form-control" type="checkbox" name="isCompleted"></Field>
+                                    </fieldset>
                                     <button className="btn btn-success" type="submit">Save</button>
                                 </Form>
                             )
