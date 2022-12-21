@@ -1,6 +1,7 @@
 import {React, Component} from 'react';
 import moment from 'moment';
-
+import TodoDataService from '../../api/todo/TodoDataService';
+import AuthenticationService from './AuthenticationService';
 import { Formik, Form, Field, ErrorMessage, validateYupSchema } from 'formik';
 
 class TodoComponent extends Component{
@@ -8,13 +9,28 @@ class TodoComponent extends Component{
         super(props)
 
         this.state = {
-            id: 1,
-            description: 'ex',
+            
+            description: '',
             targetDate: moment(new Date()).format('YYYY-MM-DD'),
             isCompleted: false
 
         }
         
+    }
+
+    componentDidMount(){
+        let username = AuthenticationService.getLoggedInUserName();
+        let id = this.props.params.id
+        TodoDataService.retrieveTodo(username, id)
+        .then(response =>{
+            console.log(response)
+            this.setState({
+                description: response.data.description,
+                targetDate: moment(response.data.targetDate).format('YYYY-MM-DD'),
+                isCompleted: response.data.done
+            })
+        })
+        .catch(e => console.log(e))
     }
 
     // if it returns errors as empty object, onSubmit is called
@@ -53,7 +69,8 @@ class TodoComponent extends Component{
                             onSubmit={this.onSubmit} 
                             validate={this.validate}
                             validateOnChange={false}
-                            validateOnBlur={false}>
+                            validateOnBlur={false}
+                            enableReinitialize={true}>
                         {
                             (props) => (
                                 <Form>
