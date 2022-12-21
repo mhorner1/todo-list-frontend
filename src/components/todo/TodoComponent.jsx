@@ -23,7 +23,7 @@ class TodoComponent extends Component{
         let id = this.props.params.id
         TodoDataService.retrieveTodo(username, id)
         .then(response =>{
-            console.log(response)
+            //console.log(response)
             this.setState({
                 description: response.data.description,
                 targetDate: moment(response.data.targetDate).format('YYYY-MM-DD'),
@@ -55,7 +55,18 @@ class TodoComponent extends Component{
         return errors;
     }
     onSubmit = (values) =>{
-        console.log(`submit: ${values.targetDate}`)
+        let username = AuthenticationService.getLoggedInUserName();
+        let id = this.props.params.id
+        //console.log(`submit: ${values.targetDate}`)
+        TodoDataService.updateTodo(username,id, {
+            id : id,
+            username: username,
+            description : values.description,
+            targetDate : values.targetDate,
+            done: values.isCompleted
+        })
+        .then(() => this.props.navigate("/todos"))
+        .catch(e => console.log(e))
     }
 
     render(){
