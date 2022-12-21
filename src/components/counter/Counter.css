@@ -1,0 +1,33 @@
+button{
+ background-color: rgb(64, 158, 106);
+ font-size: 16px;
+ padding: 15px 30px;
+ margin: 2px 0px;
+ color: white;
+ width: 100px;
+ 
+}
+
+.count{
+    font-size: 40px;
+    padding: 15px 30px;
+}
+
+.ButtonRow{
+    display: flex; 
+    justify-content: center;
+}
+
+.counter{
+    width:105px;
+}
+
+.reset{
+    background-color: red;
+    font-size: 16px;
+    padding: 15px 30px;
+    margin: 2px 0px;
+    color: white;
+    width: 208px;
+ 
+}
