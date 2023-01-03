@@ -48,6 +48,11 @@ class ListTodosComponent extends Component{
         this.props.navigate(`/todos/${id}`)
     }
 
+    addTodoClicked = () => {
+        console.log('create')
+        this.props.navigate(`/todos/-1`)
+    }
+
     render(){
         return(
             <div>
@@ -79,6 +84,9 @@ class ListTodosComponent extends Component{
                             }
                         </tbody>
                     </table>
+                    <div className="row">
+                            <button className="btn btn-submit" onClick={this.addTodoClicked}>Add Todo</button>
+                    </div>
                 </div>
             </div>
         );

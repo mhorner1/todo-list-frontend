@@ -19,6 +19,11 @@ class TodoDataService{
         //console.log(todo.targetDate)
         return axios.put(`http://localhost:8080/users/${username}/todos/${id}`, todo)
     }
+
+    createTodo(username, todo){
+        //console.log(todo.targetDate)
+        return axios.post(`http://localhost:8080/users/${username}/todos/`, todo)
+    }
     
 }
 

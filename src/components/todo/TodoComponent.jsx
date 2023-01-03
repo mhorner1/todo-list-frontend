@@ -19,6 +19,11 @@ class TodoComponent extends Component{
     }
 
     componentDidMount(){
+        console.log(`MOUNT ID ${this.props.params.id}`)
+        if(this.props.params.id === "-1"){
+            return
+        }
+        console.log("ccsacas")
         let username = AuthenticationService.getLoggedInUserName();
         let id = this.props.params.id
         TodoDataService.retrieveTodo(username, id)
@@ -57,16 +62,26 @@ class TodoComponent extends Component{
     onSubmit = (values) =>{
         let username = AuthenticationService.getLoggedInUserName();
         let id = this.props.params.id
-        //console.log(`submit: ${values.targetDate}`)
-        TodoDataService.updateTodo(username,id, {
+        let todo = {
             id : id,
             username: username,
             description : values.description,
             targetDate : values.targetDate,
             done: values.isCompleted
-        })
-        .then(() => this.props.navigate("/todos"))
-        .catch(e => console.log(e))
+        }
+        if(id === "-1"){
+            //console.log(`submit: ${values.targetDate}`)
+            TodoDataService.createTodo(username, todo)
+            .then(() => this.props.navigate("/todos"))
+            .catch(e => console.log(e))
+        }else{
+            //console.log(`submit: ${values.targetDate}`)
+            TodoDataService.updateTodo(username,id, todo)
+            .then(() => this.props.navigate("/todos"))
+            .catch(e => console.log(e))
+        }
+        
+
     }
 
     render(){
